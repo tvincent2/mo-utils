@@ -29,6 +29,12 @@ class BVect {
     bool strictlyDominates(const BVect& bv) const {
       return (this->y1() < bv.y1() && this->y2() < bv.y2());
     }
+    bool operator < (const BVect& bv) const {
+      return this->strictlyDominates(bv);
+    }
+    bool operator <= (const BVect& bv) const {
+      return this->dominates(bv);
+    }
 };
 
 #endif
