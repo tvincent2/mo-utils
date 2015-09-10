@@ -14,6 +14,7 @@ class BVect {
     BVect (double y1, double y2, vector<double> x) : _y1(y1), _y2(y2), _x(x) {}
     double y1() const {return _y1;}
     double y2() const {return _y2;}
+    vector<double> x() const {return _x;}
     bool operator == (const BVect& bv) const {
       return (this->y1() == bv.y1() && this->y2() == bv.y2());
     }
