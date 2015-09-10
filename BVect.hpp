@@ -12,8 +12,8 @@ class BVect {
     vector<double> _x;
   public:
     BVect (double y1, double y2, vector<double> x) : _y1(y1), _y2(y2), _x(x) {}
-    double y1() {return _y1;}
-    double y2() {return _y2;}
+    double y1() const {return _y1;}
+    double y2() const {return _y2;}
 };
 
 #endif
