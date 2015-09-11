@@ -16,6 +16,12 @@ class BEdge {
     BVect leftPoint() const {return _a;}
     BVect rightPoint() const {return _b;}
     bool isAPoint() const {return _point;}
+    bool isInA1AreaOf(const BEdge& be) const {
+      return (be.leftPoint().y1() > this->rightPoint().y1() && be.leftPoint().y2() < this->rightPoint().y2());
+    }
+    bool isInA2AreaOf(const BEdge& be) const {
+      return be.isInA1AreaOf(*this);
+    }
 };
 
 #endif

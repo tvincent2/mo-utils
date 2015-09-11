@@ -36,6 +36,12 @@ class BVect {
     bool operator <= (const BVect& bv) const {
       return this->dominates(bv);
     }
+    bool isInA1AreaOf(const BVect& bv) const {
+      return (bv.y1() > this->y1() && bv.y2() < this->y2());
+    }
+    bool isInA2AreaOf(const BVect& bv) const {
+      return bv.isInA1AreaOf(*this);
+    }
 };
 
 #endif
