@@ -78,13 +78,13 @@ class BEdgeTest : public CppUnit::TestFixture {
     std::pair<double, double> pa = longEdge->computeLambdasWithPoint(a);
     std::pair<double, double> pb = longEdge->computeLambdasWithPoint(b);
     std::pair<double, double> pc = longEdge->computeLambdasWithPoint(c);
-    CPPUNIT_ASSERT(pz.first == 0);
-    CPPUNIT_ASSERT(pz.second == 1);
-    CPPUNIT_ASSERT(pa.first == 0);
-    CPPUNIT_ASSERT(pa.second == 0.25);
-    CPPUNIT_ASSERT(pb.first == 2.0/3.0);
-    CPPUNIT_ASSERT(pb.second == 1);
-    CPPUNIT_ASSERT(pc.first == 1.0/3.0);
+    CPPUNIT_ASSERT(pz.first == 1);
+    CPPUNIT_ASSERT(pz.second == 0);
+    CPPUNIT_ASSERT(pa.first == 1);
+    CPPUNIT_ASSERT(pa.second == 0.75);
+    CPPUNIT_ASSERT(pb.first == 1.0/3.0);
+    CPPUNIT_ASSERT(pb.second == 0);
+    CPPUNIT_ASSERT(pc.first == 2.0/3.0);
     CPPUNIT_ASSERT(pc.second == 0.5);
   }
 };

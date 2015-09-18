@@ -27,11 +27,11 @@ class BEdge {
     std::pair<double, double> computeLambdasWithPoint(const BVect& bv) const {
       std::pair<double, double> lambdas;
       if (this->leftPoint().z1() <= bv.z1() && bv.z1() <= this->rightPoint().z1())
-        lambdas.first = ((bv.z1() - this->leftPoint().z1()) / ( this->rightPoint().z1() - this->leftPoint().z1()));
-      else lambdas.first = 0;
+        lambdas.first = ((this->rightPoint().z1() - bv.z1()) / ( this->rightPoint().z1() - this->leftPoint().z1()));
+      else lambdas.first = 1;
       if (this->rightPoint().z2() <= bv.z2() && bv.z2() <= this->leftPoint().z2())
-        lambdas.second = ((this->leftPoint().z2() - bv.z2()) / ( this->leftPoint().z2() - this->rightPoint().z2()));
-      else lambdas.second = 1;
+        lambdas.second = ((bv.z2() - this->rightPoint().z2()) / ( this->leftPoint().z2() - this->rightPoint().z2()));
+      else lambdas.second = 0;
       return lambdas;
     }
     DominanceStatus compareWithPoint(const BEdge& be, BEdge& tleft, BEdge& tright) const {
