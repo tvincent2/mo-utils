@@ -37,12 +37,6 @@ class BVect {
     bool strictlyDominates(const BVect& bv) const {
       return (this->z1() < bv.z1() && this->z2() < bv.z2());
     }
-    bool operator < (const BVect& bv) const {
-      return this->strictlyDominates(bv);
-    }
-    bool operator <= (const BVect& bv) const {
-      return this->dominates(bv);
-    }
     bool isInA1AreaOf(const BVect& bv) const {
       return (bv.z1() > this->z1() && bv.z2() < this->z2());
     }
