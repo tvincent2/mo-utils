@@ -4,6 +4,7 @@
 class BVectTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE(BVectTest);
   CPPUNIT_TEST(testDominance);
+  CPPUNIT_TEST(testWeakDominance);
   CPPUNIT_TEST_SUITE_END();
  private:
   BVect* a;
@@ -41,6 +42,24 @@ class BVectTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT(!d->dominates(*b));
     CPPUNIT_ASSERT(d->dominates(*c));
     CPPUNIT_ASSERT(!d->dominates(*d));
+  }
+  void testWeakDominance() {
+    CPPUNIT_ASSERT(a->weaklyDominates(*a));
+    CPPUNIT_ASSERT(!a->weaklyDominates(*b));
+    CPPUNIT_ASSERT(a->weaklyDominates(*c));
+    CPPUNIT_ASSERT(a->weaklyDominates(*d));
+    CPPUNIT_ASSERT(!b->weaklyDominates(*a));
+    CPPUNIT_ASSERT(b->weaklyDominates(*b));
+    CPPUNIT_ASSERT(b->weaklyDominates(*c));
+    CPPUNIT_ASSERT(b->weaklyDominates(*d));
+    CPPUNIT_ASSERT(!c->weaklyDominates(*a));
+    CPPUNIT_ASSERT(!c->weaklyDominates(*b));
+    CPPUNIT_ASSERT(c->weaklyDominates(*c));
+    CPPUNIT_ASSERT(!c->weaklyDominates(*d));
+    CPPUNIT_ASSERT(!d->weaklyDominates(*a));
+    CPPUNIT_ASSERT(!d->weaklyDominates(*b));
+    CPPUNIT_ASSERT(d->weaklyDominates(*c));
+    CPPUNIT_ASSERT(d->weaklyDominates(*d));
   }
 };
 
