@@ -6,6 +6,7 @@ class BVectTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testDominance);
   CPPUNIT_TEST(testWeakDominance);
   CPPUNIT_TEST(testStrictDominance);
+  CPPUNIT_TEST(testAreaPredicates);
   CPPUNIT_TEST_SUITE_END();
  private:
   BVect* a;
@@ -79,6 +80,32 @@ class BVectTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT(!d->strictlyDominates(*b));
     CPPUNIT_ASSERT(d->strictlyDominates(*c));
     CPPUNIT_ASSERT(!d->strictlyDominates(*d));
+  }
+  void testAreaPredicates() {
+    CPPUNIT_ASSERT(a->isInA1AreaOf(*b));
+    CPPUNIT_ASSERT(!a->isInA1AreaOf(*c));
+    CPPUNIT_ASSERT(!a->isInA1AreaOf(*d));
+    CPPUNIT_ASSERT(!b->isInA1AreaOf(*a));
+    CPPUNIT_ASSERT(!b->isInA1AreaOf(*c));
+    CPPUNIT_ASSERT(!b->isInA1AreaOf(*d));
+    CPPUNIT_ASSERT(!c->isInA1AreaOf(*a));
+    CPPUNIT_ASSERT(!c->isInA1AreaOf(*b));
+    CPPUNIT_ASSERT(!c->isInA1AreaOf(*d));
+    CPPUNIT_ASSERT(!d->isInA1AreaOf(*a));
+    CPPUNIT_ASSERT(!d->isInA1AreaOf(*b));
+    CPPUNIT_ASSERT(!d->isInA1AreaOf(*c));
+    CPPUNIT_ASSERT(!a->isInA2AreaOf(*b));
+    CPPUNIT_ASSERT(!a->isInA2AreaOf(*c));
+    CPPUNIT_ASSERT(!a->isInA2AreaOf(*d));
+    CPPUNIT_ASSERT(b->isInA2AreaOf(*a));
+    CPPUNIT_ASSERT(!b->isInA2AreaOf(*c));
+    CPPUNIT_ASSERT(!b->isInA2AreaOf(*d));
+    CPPUNIT_ASSERT(!c->isInA2AreaOf(*a));
+    CPPUNIT_ASSERT(!c->isInA2AreaOf(*b));
+    CPPUNIT_ASSERT(!c->isInA2AreaOf(*d));
+    CPPUNIT_ASSERT(!d->isInA2AreaOf(*a));
+    CPPUNIT_ASSERT(!d->isInA2AreaOf(*b));
+    CPPUNIT_ASSERT(!d->isInA2AreaOf(*c));
   }
 };
 
