@@ -4,6 +4,7 @@
 class BEdgeTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE(BEdgeTest);
   CPPUNIT_TEST(testPointGetters);
+  CPPUNIT_TEST(testIsAPoint);
   CPPUNIT_TEST_SUITE_END();
  private:
   BEdge* simpleEdge;
@@ -37,6 +38,11 @@ class BEdgeTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT(pointEdge2->leftPoint().z2() == 0);
     CPPUNIT_ASSERT(pointEdge2->rightPoint().z1() == 0);
     CPPUNIT_ASSERT(pointEdge2->rightPoint().z2() == 0);
+  }
+  void testIsAPoint() {
+    CPPUNIT_ASSERT(!simpleEdge->isAPoint());
+    CPPUNIT_ASSERT(pointEdge->isAPoint());
+    CPPUNIT_ASSERT(pointEdge2->isAPoint());
   }
 };
 
