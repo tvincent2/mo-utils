@@ -100,14 +100,26 @@ class BEdgeTest : public CppUnit::TestFixture {
     BEdge bc(c);
     BEdge left;
     BEdge right;
+    BVect aProj2(1.75, 9, x);
+    BVect bProj1(3, (7.0 + 1.0/3.0), x);
+    BVect cProj1(2, (8.0 + 2.0/3.0), x);
+    BVect cProj2(2.5, 8, x);
     DominanceStatus dsz = longEdge->compareWithPoint(bz, left, right);
     CPPUNIT_ASSERT(dsz == DominanceStatus::B_DOM_A);
     DominanceStatus dsa = longEdge->compareWithPoint(ba, left, right);
     CPPUNIT_ASSERT(dsa == DominanceStatus::B_PART_DOM_A);
+    CPPUNIT_ASSERT(right.rightPoint() == longEdge->rightPoint());
+    CPPUNIT_ASSERT(right.leftPoint() == aProj2);
     DominanceStatus dsb = longEdge->compareWithPoint(bb, left, right);
     CPPUNIT_ASSERT(dsb == DominanceStatus::B_PART_DOM_A);
+    CPPUNIT_ASSERT(left.leftPoint() == longEdge->leftPoint());
+    CPPUNIT_ASSERT(left.rightPoint() == bProj1);
     DominanceStatus dsc = longEdge->compareWithPoint(bc, left, right);
     CPPUNIT_ASSERT(dsc == DominanceStatus::B_PART_DOM_A);
+    CPPUNIT_ASSERT(left.leftPoint() == longEdge->leftPoint());
+    CPPUNIT_ASSERT(left.rightPoint() == cProj1);
+    CPPUNIT_ASSERT(right.leftPoint() == cProj2);
+    CPPUNIT_ASSERT(right.rightPoint() == longEdge->rightPoint());
   }
 };
 
