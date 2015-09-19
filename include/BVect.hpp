@@ -11,6 +11,7 @@ class BVect {
     double _z2;
     vector<double> _x;
   public:
+    BVect () {}
     BVect (double z1, double z2, vector<double> x) : _z1(z1), _z2(z2), _x(x) {}
     BVect (const BVect& b1, const BVect& b2, double lambda) {
       _z1 = lambda * b1.z1() + (1-lambda) * b2.z1();

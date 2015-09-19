@@ -7,6 +7,7 @@ class BEdgeTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testIsAPoint);
   CPPUNIT_TEST(testAreaPredicates);
   CPPUNIT_TEST(testProjComputation);
+  CPPUNIT_TEST(testComparisonWithPoint);
   CPPUNIT_TEST_SUITE_END();
  private:
   BEdge* simpleEdge;
@@ -86,6 +87,27 @@ class BEdgeTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT(pb.second == 0);
     CPPUNIT_ASSERT(pc.first == 2.0/3.0);
     CPPUNIT_ASSERT(pc.second == 0.5);
+  }
+  void testComparisonWithPoint() {
+    std::vector<double> x;
+    BVect zero(0, 0, x);
+    BEdge bz(zero);
+    BVect a(0, 9, x);
+    BEdge ba(a);
+    BVect b(3, 5, x);
+    BEdge bb(b);
+    BVect c(2, 8, x);
+    BEdge bc(c);
+    BEdge left;
+    BEdge right;
+    DominanceStatus dsz = longEdge->compareWithPoint(bz, left, right);
+    CPPUNIT_ASSERT(dsz == DominanceStatus::B_DOM_A);
+    DominanceStatus dsa = longEdge->compareWithPoint(ba, left, right);
+    CPPUNIT_ASSERT(dsa == DominanceStatus::B_PART_DOM_A);
+    DominanceStatus dsb = longEdge->compareWithPoint(bb, left, right);
+    CPPUNIT_ASSERT(dsb == DominanceStatus::B_PART_DOM_A);
+    DominanceStatus dsc = longEdge->compareWithPoint(bc, left, right);
+    CPPUNIT_ASSERT(dsc == DominanceStatus::B_PART_DOM_A);
   }
 };
 
