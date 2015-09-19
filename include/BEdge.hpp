@@ -35,6 +35,24 @@ class BEdge {
       else lambdas.second = 0;
       return lambdas;
     }
+    std::pair<BVect, BVect> computeProjWithPoint(const BVect& bv) const {
+      std::pair<BVect, BVect> projections;
+      if (this->leftPoint().z1() <= bv.z1() && bv.z1() <= this->rightPoint().z1()) {
+        double lambda = ((this->rightPoint().z1() - bv.z1()) / ( this->rightPoint().z1() - this->leftPoint().z1()));
+        BVect p(this->leftPoint(), this->rightPoint(), lambda);
+        projections.first = BVect(bv.z1(), p.z2(), p.x());
+      } else {
+        projections.first = this->leftPoint();
+      }
+      if (this->rightPoint().z2() <= bv.z2() && bv.z2() <= this->leftPoint().z2()) {
+        double lambda = ((bv.z2() - this->rightPoint().z2()) / ( this->leftPoint().z2() - this->rightPoint().z2()));
+        BVect p(this->leftPoint(), this->rightPoint(), lambda);
+        projections.second = BVect(p.z1(), bv.z2(), p.x());
+      } else {
+        projections.second = this->rightPoint();
+      }
+      return projections;
+    }
     DominanceStatus compareWithPoint(const BEdge& be, BEdge& tleft, BEdge& tright) const {
       if (this->isInA1AreaOf(be) || this->isInA2AreaOf(be))
         return DominanceStatus::NO_DOM;
@@ -43,9 +61,9 @@ class BEdge {
         return DominanceStatus::A_DOM_B;
       if (bv.weaklyDominates(this->leftPoint()) && bv.weaklyDominates(this->rightPoint()))
         return DominanceStatus::B_DOM_A;
-      std::pair<double, double> lambdas = computeLambdasWithPoint(bv);
-      BVect proj1(this->leftPoint(), this->rightPoint(), lambdas.first);
-      BVect proj2(this->leftPoint(), this->rightPoint(), lambdas.second);
+      std::pair<BVect, BVect> projs = computeProjWithPoint(bv);
+      BVect proj1 = projs.first;
+      BVect proj2 = projs.second;
       if (proj1.weaklyDominates(bv))
         return DominanceStatus::A_DOM_B;
       else {
@@ -78,9 +96,9 @@ class BEdge {
       if (t.leftPoint().weaklyDominates(b.leftPoint()))
         return DominanceStatus::A_DOM_B;
       else if (t.leftPoint().isInA1AreaOf(b.leftPoint())) {
-        std::pair<double, double> lambdas = t.computeLambdasWithPoint(b.leftPoint());
-        BVect proj1(t.leftPoint(), t.rightPoint(), lambdas.first);
-        BVect proj2(t.leftPoint(), t.rightPoint(), lambdas.second);
+        std::pair<BVect, BVect> projs = t.computeProjWithPoint(b.leftPoint());
+        BVect proj1 = projs.first;
+        BVect proj2 = projs.second;
         if (b.leftPoint().dominates(proj1)) {
           t = BEdge(t.leftPoint(), proj1);
           return DominanceStatus::B_PART_DOM_A;
@@ -95,9 +113,9 @@ class BEdge {
       if (t.rightPoint().weaklyDominates(b.rightPoint()))
         return DominanceStatus::A_DOM_B;
       else if (t.rightPoint().isInA2AreaOf(b.rightPoint())) {
-        std::pair<double, double> lambdas = t.computeLambdasWithPoint(b.rightPoint());
-        BVect proj1(t.leftPoint(), t.rightPoint(), lambdas.first);
-        BVect proj2(t.leftPoint(), t.rightPoint(), lambdas.second);
+        std::pair<BVect, BVect> projs = t.computeProjWithPoint(b.rightPoint());
+        BVect proj1 = projs.first;
+        BVect proj2 = projs.second;
         if (b.rightPoint().dominates(proj2)) {
           t = BEdge(proj2, t.rightPoint());
           return DominanceStatus::B_PART_DOM_A;
@@ -133,18 +151,18 @@ class BEdge {
         } else {
           if (this->isInA1AreaOf(be) || this->isInA2AreaOf(be))
             return DominanceStatus::NO_DOM;
-          std::pair<double, double> lambdasb1 = this->computeLambdasWithPoint(be.leftPoint());
-          BVect proj1bleft(this->leftPoint(), this->rightPoint(), lambdasb1.first);
-          BVect proj2bleft(this->leftPoint(), this->rightPoint(), lambdasb1.second);
-          std::pair<double, double> lambdasb2 = this->computeLambdasWithPoint(be.rightPoint());
-          BVect proj1bright(this->leftPoint(), this->rightPoint(), lambdasb2.first);
-          BVect proj2bright(this->leftPoint(), this->rightPoint(), lambdasb2.second);
-          std::pair<double, double> lambdast1 = this->computeLambdasWithPoint(this->leftPoint());
-          BVect proj1tleft(be.leftPoint(), be.rightPoint(), lambdast1.first);
-          BVect proj2tleft(be.leftPoint(), be.rightPoint(), lambdast1.second);
-          std::pair<double, double> lambdast2 = this->computeLambdasWithPoint(this->rightPoint());
-          BVect proj1tright(be.leftPoint(), be.rightPoint(), lambdast2.first);
-          BVect proj2tright(be.leftPoint(), be.rightPoint(), lambdast2.second);
+          std::pair<BVect, BVect> projb1 = this->computeProjWithPoint(be.leftPoint());
+          BVect proj1bleft = projb1.first;
+          BVect proj2bleft = projb1.second;
+          std::pair<BVect, BVect> projb2 = this->computeProjWithPoint(be.rightPoint());
+          BVect proj1bright = projb2.first;
+          BVect proj2bright = projb2.second;
+          std::pair<BVect, BVect> projt1 = this->computeProjWithPoint(this->leftPoint());
+          BVect proj1tleft = projt1.first;
+          BVect proj2tleft = projt1.second;
+          std::pair<BVect, BVect> projt2 = this->computeProjWithPoint(this->rightPoint());
+          BVect proj1tright = projt2.first;
+          BVect proj2tright = projt2.second;
           bool adomb = false;
           bool bdoma = false;
           bool apartdomb = false;
