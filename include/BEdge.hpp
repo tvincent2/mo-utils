@@ -158,10 +158,10 @@ class BEdge {
           std::pair<BVect, BVect> projb2 = this->computeProjWithPoint(be.rightPoint());
           BVect proj1bright = projb2.first;
           BVect proj2bright = projb2.second;
-          std::pair<BVect, BVect> projt1 = this->computeProjWithPoint(this->leftPoint());
+          std::pair<BVect, BVect> projt1 = be.computeProjWithPoint(this->leftPoint());
           BVect proj1tleft = projt1.first;
           BVect proj2tleft = projt1.second;
-          std::pair<BVect, BVect> projt2 = this->computeProjWithPoint(this->rightPoint());
+          std::pair<BVect, BVect> projt2 = be.computeProjWithPoint(this->rightPoint());
           BVect proj1tright = projt2.first;
           BVect proj2tright = projt2.second;
           bool adomb = false;
