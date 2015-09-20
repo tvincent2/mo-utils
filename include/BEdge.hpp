@@ -74,7 +74,7 @@ class BEdge {
         return DominanceStatus::B_PART_DOM_A;
       }
     }
-    bool intersect(const BEdge& be, double& lambda) const {
+    bool intersect(const BEdge& be, BVect& i1, BVect& i2) const {
       double Az1 = this->leftPoint().z1();
       double Az2 = this->leftPoint().z2();
       double Cz1 = be.leftPoint().z1();
@@ -83,10 +83,11 @@ class BEdge {
       double Iz2 = this->rightPoint().z2() - Az2;
       double Jz1 = be.rightPoint().z1() - Cz1;
       double Jz2 = be.rightPoint().z2() - Cz2;
-      double lam = (Iz1*Cz1 - Iz1*Az1 - Iz2*Cz2 + Iz2*Az2) / (Iz1*Jz2 - Iz2*Jz1);
+      double lambda = (Iz1*Cz1 - Iz1*Az1 - Iz2*Cz2 + Iz2*Az2) / (Iz1*Jz2 - Iz2*Jz1);
       double mu  = (Iz2*Cz1 - Iz2*Az1 - Iz1*Cz2 + Iz1*Az2) / (Iz1*Jz2 - Iz2*Jz1);
-      if (0 < lam && lam < 1 && 0 < mu && mu < 1) {
-        lambda = lam;
+      if (0 < lambda && lambda < 1 && 0 < mu && mu < 1) {
+        i1 = BVect(this->leftPoint(), this->rightPoint(), lambda);
+        i2 = BVect(be.leftPoint(), be.rightPoint(), mu);
         return true;
       } else {
         return false;
@@ -138,13 +139,13 @@ class BEdge {
       } else if (be.isAPoint()) {
         return this->compareWithPoint(be, beleft, beright);
       } else {
-        double lambda;
-        if (this->intersect(be, lambda)) {
-          BVect intersection(this->leftPoint(), this->rightPoint(), lambda);
-          tleft = BEdge(this->leftPoint(), intersection);
-          tright = BEdge(intersection, this->rightPoint());
-          beleft = BEdge(be.leftPoint(), intersection);
-          beright = BEdge(intersection, be.rightPoint());
+        BVect intThis;
+        BVect intBe;
+        if (this->intersect(be, intThis, intBe)) {
+          tleft = BEdge(this->leftPoint(), intThis);
+          tright = BEdge(intThis, this->rightPoint());
+          beleft = BEdge(be.leftPoint(), intBe);
+          beright = BEdge(intBe, be.rightPoint());
           DominanceStatus left = compareLeftEdges(tleft, beleft);
           DominanceStatus right = compareRightEdges(tright, beright);
           return DominanceStatus::MUTUAL_DOM;
