@@ -8,6 +8,7 @@ class BEdgeTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testAreaPredicates);
   CPPUNIT_TEST(testProjComputation);
   CPPUNIT_TEST(testComparisonWithPoint);
+  CPPUNIT_TEST(testIntersection);
   CPPUNIT_TEST_SUITE_END();
  private:
   BEdge* simpleEdge;
@@ -15,6 +16,10 @@ class BEdgeTest : public CppUnit::TestFixture {
   BEdge* pointEdge2;
   BEdge* simpleEdge2;
   BEdge* longEdge;
+  BEdge* intersectEdge1;
+  BEdge* intersectEdge2;
+  BEdge* intersectEdge3;
+  BEdge* intersectEdge4;
  public:
   void setUp() {
     std::vector<double> x;
@@ -23,11 +28,23 @@ class BEdgeTest : public CppUnit::TestFixture {
     BVect c(0, 0, x);
     BVect d(5, 7, x);
     BVect e(4, 6, x);
+    BVect i1(0, 8, x);
+    BVect i2(8, 0, x);
+    BVect i3(0, 10, x);
+    BVect i4(4, 2, x);
+    BVect i5(0, 5, x);
+    BVect i6(8, 3, x);
+    BVect i7(5, 6, x);
+    BVect i8(8, 3, x);
     simpleEdge = new BEdge(a, b);
     pointEdge = new BEdge(c);
     pointEdge2 = new BEdge(c, c);
     simpleEdge2 = new BEdge(d, e);
     longEdge = new BEdge(a, e);
+    intersectEdge1 = new BEdge(i1, i2);
+    intersectEdge2 = new BEdge(i3, i4);
+    intersectEdge3 = new BEdge(i5, i6);
+    intersectEdge4 = new BEdge(i7, i8);
   }
   void tearDown() {
     delete simpleEdge;
@@ -120,6 +137,14 @@ class BEdgeTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT(left.rightPoint() == cProj1);
     CPPUNIT_ASSERT(right.leftPoint() == cProj2);
     CPPUNIT_ASSERT(right.rightPoint() == longEdge->rightPoint());
+  }
+  void testIntersection() {
+    BVect i1, i2;
+    CPPUNIT_ASSERT(intersectEdge1->intersect(*intersectEdge2, i1, i2));
+    CPPUNIT_ASSERT(i1.z1() == 2 && i1.z2() == 6);
+    CPPUNIT_ASSERT(intersectEdge1->intersect(*intersectEdge3, i1, i2));
+    CPPUNIT_ASSERT(i1.z1() == 4 && i1.z2() == 4);
+    CPPUNIT_ASSERT(!intersectEdge1->intersect(*intersectEdge4, i1, i2));
   }
 };
 
