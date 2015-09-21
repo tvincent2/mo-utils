@@ -75,19 +75,19 @@ class BEdge {
       }
     }
     bool intersect(const BEdge& be, BVect& i1, BVect& i2) const {
-      double Az1 = this->leftPoint().z1();
-      double Az2 = this->leftPoint().z2();
-      double Cz1 = be.leftPoint().z1();
-      double Cz2 = be.leftPoint().z2();
-      double Iz1 = this->rightPoint().z1() - Az1;
-      double Iz2 = this->rightPoint().z2() - Az2;
-      double Jz1 = be.rightPoint().z1() - Cz1;
-      double Jz2 = be.rightPoint().z2() - Cz2;
-      double lambda = (Iz1*Cz1 - Iz1*Az1 - Iz2*Cz2 + Iz2*Az2) / (Iz1*Jz2 - Iz2*Jz1);
-      double mu  = (Iz2*Cz1 - Iz2*Az1 - Iz1*Cz2 + Iz1*Az2) / (Iz1*Jz2 - Iz2*Jz1);
+      double Az1 = this->rightPoint().z1();
+      double Az2 = this->rightPoint().z2();
+      double Cz1 = be.rightPoint().z1();
+      double Cz2 = be.rightPoint().z2();
+      double Iz1 = this->leftPoint().z1() - Az1;
+      double Iz2 = this->leftPoint().z2() - Az2;
+      double Jz1 = be.leftPoint().z1() - Cz1;
+      double Jz2 = be.leftPoint().z2() - Cz2;
+      double lambda = (Iz2*Cz1 - Iz2*Az1 - Iz1*Cz2 + Iz1*Az2) / (Iz1*Jz2 - Iz2*Jz1);
+      double mu  = (Jz2*Cz1 - Jz2*Az1 - Jz1*Cz2 + Jz1*Az2) / (Iz1*Jz2 - Iz2*Jz1);
       if (0 < lambda && lambda < 1 && 0 < mu && mu < 1) {
-        i1 = BVect(this->leftPoint(), this->rightPoint(), lambda);
-        i2 = BVect(be.leftPoint(), be.rightPoint(), mu);
+        i1 = BVect(this->leftPoint(), this->rightPoint(), mu);
+        i2 = BVect(be.leftPoint(), be.rightPoint(), lambda);
         return true;
       } else {
         return false;
