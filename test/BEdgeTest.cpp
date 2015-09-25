@@ -98,6 +98,16 @@ class BEdgeTest : public CppUnit::TestFixture {
     delete pointEdge2;
     delete simpleEdge2;
     delete longEdge;
+    delete intersectEdge1;
+    delete intersectEdge2;
+    delete intersectEdge3;
+    delete intersectEdge4;
+    delete leftEdge1;
+    delete leftEdge2;
+    delete leftEdge3;
+    delete rightEdge1;
+    delete rightEdge2;
+    delete rightEdge3;
     delete longEdge1;
     delete longEdge2;
     delete longEdge3;
