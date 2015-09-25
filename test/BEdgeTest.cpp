@@ -181,8 +181,12 @@ class BEdgeTest : public CppUnit::TestFixture {
   void testComparisonRight() {
     BEdge rest;
     CPPUNIT_ASSERT(rest.compareRightEdges(*rightEdge1, *rightEdge2) == DominanceStatus::B_PART_DOM_A);
+    CPPUNIT_ASSERT(rest.leftPoint().z1() == 7 && rest.leftPoint().z2() == 3);
+    CPPUNIT_ASSERT(rest.rightPoint().z1() == 8 && rest.rightPoint().z2() == 2);
     CPPUNIT_ASSERT(rest.compareRightEdges(*rightEdge1, *rightEdge3) == DominanceStatus::B_DOM_A);
     CPPUNIT_ASSERT(rest.compareRightEdges(*rightEdge2, *rightEdge1) == DominanceStatus::A_PART_DOM_B);
+    CPPUNIT_ASSERT(rest.leftPoint().z1() == 7 && rest.leftPoint().z2() == 3);
+    CPPUNIT_ASSERT(rest.rightPoint().z1() == 8 && rest.rightPoint().z2() == 2);
     CPPUNIT_ASSERT(rest.compareRightEdges(*rightEdge3, *rightEdge1) == DominanceStatus::A_DOM_B);
   }
 };
