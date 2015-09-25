@@ -10,6 +10,7 @@ class BEdgeTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testComparisonWithPoint);
   CPPUNIT_TEST(testIntersection);
   CPPUNIT_TEST(testComparisonLeft);
+  CPPUNIT_TEST(testComparisonRight);
   CPPUNIT_TEST_SUITE_END();
  private:
   BEdge* simpleEdge;
@@ -24,6 +25,9 @@ class BEdgeTest : public CppUnit::TestFixture {
   BEdge* leftEdge1;
   BEdge* leftEdge2;
   BEdge* leftEdge3;
+  BEdge* rightEdge1;
+  BEdge* rightEdge2;
+  BEdge* rightEdge3;
  public:
   void setUp() {
     std::vector<double> x;
@@ -43,6 +47,9 @@ class BEdgeTest : public CppUnit::TestFixture {
     BVect le1(2, 8, x);
     BVect le2(1, 7, x);
     BVect le3(3, 6, x);
+    BVect re1(8, 2, x);
+    BVect re2(6, 3, x);
+    BVect re3(7, 1, x);
     BVect intersection(5, 5, x);
     simpleEdge = new BEdge(a, b);
     pointEdge = new BEdge(c);
@@ -56,6 +63,9 @@ class BEdgeTest : public CppUnit::TestFixture {
     leftEdge1 = new BEdge(le1, intersection);
     leftEdge2 = new BEdge(le2, intersection);
     leftEdge3 = new BEdge(le3, intersection);
+    rightEdge1 = new BEdge(intersection, re1);
+    rightEdge2 = new BEdge(intersection, re2);
+    rightEdge3 = new BEdge(intersection, re3);
   }
   void tearDown() {
     delete simpleEdge;
@@ -163,6 +173,13 @@ class BEdgeTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT(rest.compareLeftEdges(*leftEdge1, *leftEdge3) == DominanceStatus::B_PART_DOM_A);
     CPPUNIT_ASSERT(rest.compareLeftEdges(*leftEdge2, *leftEdge1) == DominanceStatus::A_DOM_B);
     CPPUNIT_ASSERT(rest.compareLeftEdges(*leftEdge3, *leftEdge1) == DominanceStatus::A_PART_DOM_B);
+  }
+  void testComparisonRight() {
+    BEdge rest;
+    CPPUNIT_ASSERT(rest.compareRightEdges(*rightEdge1, *rightEdge2) == DominanceStatus::B_PART_DOM_A);
+    CPPUNIT_ASSERT(rest.compareRightEdges(*rightEdge1, *rightEdge3) == DominanceStatus::B_DOM_A);
+    CPPUNIT_ASSERT(rest.compareRightEdges(*rightEdge2, *rightEdge1) == DominanceStatus::A_PART_DOM_B);
+    CPPUNIT_ASSERT(rest.compareRightEdges(*rightEdge3, *rightEdge1) == DominanceStatus::A_DOM_B);
   }
 };
 
