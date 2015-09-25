@@ -9,6 +9,7 @@ class BEdgeTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testProjComputation);
   CPPUNIT_TEST(testComparisonWithPoint);
   CPPUNIT_TEST(testIntersection);
+  CPPUNIT_TEST(testComparisonLeft);
   CPPUNIT_TEST_SUITE_END();
  private:
   BEdge* simpleEdge;
@@ -20,6 +21,9 @@ class BEdgeTest : public CppUnit::TestFixture {
   BEdge* intersectEdge2;
   BEdge* intersectEdge3;
   BEdge* intersectEdge4;
+  BEdge* leftEdge1;
+  BEdge* leftEdge2;
+  BEdge* leftEdge3;
  public:
   void setUp() {
     std::vector<double> x;
@@ -36,6 +40,10 @@ class BEdgeTest : public CppUnit::TestFixture {
     BVect i6(8, 3, x);
     BVect i7(5, 6, x);
     BVect i8(8, 3, x);
+    BVect le1(2, 8, x);
+    BVect le2(1, 7, x);
+    BVect le3(3, 6, x);
+    BVect intersection(5, 5, x);
     simpleEdge = new BEdge(a, b);
     pointEdge = new BEdge(c);
     pointEdge2 = new BEdge(c, c);
@@ -45,6 +53,9 @@ class BEdgeTest : public CppUnit::TestFixture {
     intersectEdge2 = new BEdge(i3, i4);
     intersectEdge3 = new BEdge(i5, i6);
     intersectEdge4 = new BEdge(i7, i8);
+    leftEdge1 = new BEdge(le1, intersection);
+    leftEdge2 = new BEdge(le2, intersection);
+    leftEdge3 = new BEdge(le3, intersection);
   }
   void tearDown() {
     delete simpleEdge;
@@ -145,6 +156,13 @@ class BEdgeTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT(intersectEdge1->intersect(*intersectEdge3, i1, i2));
     CPPUNIT_ASSERT(i1.z1() == 4 && i1.z2() == 4);
     CPPUNIT_ASSERT(!intersectEdge1->intersect(*intersectEdge4, i1, i2));
+  }
+  void testComparisonLeft() {
+    BEdge rest;
+    CPPUNIT_ASSERT(rest.compareLeftEdges(*leftEdge1, *leftEdge2) == DominanceStatus::B_DOM_A);
+    CPPUNIT_ASSERT(rest.compareLeftEdges(*leftEdge1, *leftEdge3) == DominanceStatus::B_PART_DOM_A);
+    CPPUNIT_ASSERT(rest.compareLeftEdges(*leftEdge2, *leftEdge1) == DominanceStatus::A_DOM_B);
+    CPPUNIT_ASSERT(rest.compareLeftEdges(*leftEdge3, *leftEdge1) == DominanceStatus::A_PART_DOM_B);
   }
 };
 
