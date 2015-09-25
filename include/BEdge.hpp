@@ -93,7 +93,7 @@ class BEdge {
         return false;
       }
     }
-    DominanceStatus compareLeftEdges(BEdge& t, BEdge& b) const {
+    DominanceStatus compareLeftEdges(const BEdge& t, const BEdge& b) {
       if (t.leftPoint().weaklyDominates(b.leftPoint()))
         return DominanceStatus::A_DOM_B;
       else if (t.leftPoint().isInA1AreaOf(b.leftPoint())) {
@@ -101,16 +101,16 @@ class BEdge {
         BVect proj1 = projs.first;
         BVect proj2 = projs.second;
         if (b.leftPoint().dominates(proj1)) {
-          t = BEdge(t.leftPoint(), proj1);
+          *this = BEdge(t.leftPoint(), proj1);
           return DominanceStatus::B_PART_DOM_A;
         } else {
           return DominanceStatus::A_DOM_B;
         }
       } else {
-        return invert(compareLeftEdges(b, t));
+        return invert(this->compareLeftEdges(b, t));
       }
     }
-    DominanceStatus compareRightEdges(BEdge& t, BEdge& b) const {
+    DominanceStatus compareRightEdges(const BEdge& t, const BEdge& b) {
       if (t.rightPoint().weaklyDominates(b.rightPoint()))
         return DominanceStatus::A_DOM_B;
       else if (t.rightPoint().isInA2AreaOf(b.rightPoint())) {
@@ -118,13 +118,13 @@ class BEdge {
         BVect proj1 = projs.first;
         BVect proj2 = projs.second;
         if (b.rightPoint().dominates(proj2)) {
-          t = BEdge(proj2, t.rightPoint());
+          *this = BEdge(proj2, t.rightPoint());
           return DominanceStatus::B_PART_DOM_A;
         } else {
           return DominanceStatus::A_DOM_B;
         }
       } else {
-        return invert(compareRightEdges(b, t));
+        return invert(this->compareRightEdges(b, t));
       }
     }
     DominanceStatus compareWith(const BEdge& be, BEdge& tleft, BEdge& tright, BEdge& beleft, BEdge& beright) const {
@@ -146,8 +146,18 @@ class BEdge {
           tright = BEdge(intThis, this->rightPoint());
           beleft = BEdge(be.leftPoint(), intBe);
           beright = BEdge(intBe, be.rightPoint());
-          DominanceStatus left = compareLeftEdges(tleft, beleft);
-          DominanceStatus right = compareRightEdges(tright, beright);
+          BEdge restLeft;
+          BEdge restRight;
+          DominanceStatus left = restLeft.compareLeftEdges(tleft, beleft);
+          if (left == DominanceStatus::A_PART_DOM_B)
+            beleft = restLeft;
+          else if (left == DominanceStatus::B_PART_DOM_A)
+            tleft = restLeft;
+          DominanceStatus right = restRight.compareRightEdges(tright, beright);
+          if (right == DominanceStatus::A_PART_DOM_B)
+            beright = restRight;
+          else if (right == DominanceStatus::B_PART_DOM_A)
+            tright = restRight;
           return DominanceStatus::MUTUAL_DOM;
         } else {
           if (this->isInA1AreaOf(be) || this->isInA2AreaOf(be))
