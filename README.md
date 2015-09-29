@@ -13,7 +13,7 @@ First install dependencies:
 
 `apt-get install cmake libcppunit-dev`
 
-Then build the test suite:
+Then build the test suite:  
 `mkdir build`  
 `cd build`  
 `cmake ..`  
