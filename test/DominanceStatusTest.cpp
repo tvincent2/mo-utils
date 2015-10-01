@@ -5,6 +5,7 @@
 class DominanceStatusTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE(DominanceStatusTest);
   CPPUNIT_TEST(testDominanceStatus);
+  CPPUNIT_TEST(testInvert);
   CPPUNIT_TEST_SUITE_END();
  private:
   DominanceStatus nd;
@@ -30,6 +31,14 @@ class DominanceStatusTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT (bda == DominanceStatus::B_DOM_A);
     CPPUNIT_ASSERT (bpda == DominanceStatus::B_PART_DOM_A);
     CPPUNIT_ASSERT (md == DominanceStatus::MUTUAL_DOM);
+  }
+  void testInvert() {
+    CPPUNIT_ASSERT (invert(nd) == DominanceStatus::NO_DOM);
+    CPPUNIT_ASSERT (invert(adb) == DominanceStatus::B_DOM_A);
+    CPPUNIT_ASSERT (invert(apdb) == DominanceStatus::B_PART_DOM_A);
+    CPPUNIT_ASSERT (invert(bda) == DominanceStatus::A_DOM_B);
+    CPPUNIT_ASSERT (invert(bpda) == DominanceStatus::A_PART_DOM_B);
+    CPPUNIT_ASSERT (invert(md) == DominanceStatus::MUTUAL_DOM);
   }
 };
 
