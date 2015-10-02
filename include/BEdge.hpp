@@ -13,12 +13,13 @@ class BEdge {
     bool _bClosed;
     bool _point;
   public:
-    BEdge() {}
+    BEdge() : _aClosed(false), _bClosed(false), _point(false) {}
     BEdge (BVect a, BVect b, bool aC = true, bool bC = true) : _a(a), _b(b), _aClosed(aC), _bClosed(bC), _point(a==b) {}
     BEdge (BVect a) : _a(a), _b(a), _aClosed(true), _bClosed(true), _point(true) {}
     BVect leftPoint() const {return _a;}
     BVect rightPoint() const {return _b;}
     bool isAPoint() const {return _point;}
+    bool isEmpty() const {return (!_aClosed && !_bClosed);}
     bool isInA1AreaOf(const BEdge& be) const {
       return (this->rightPoint().isInA1AreaOf(be.leftPoint()));
     }
