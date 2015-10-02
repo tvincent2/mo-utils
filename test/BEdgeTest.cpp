@@ -12,6 +12,7 @@ class BEdgeTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testComparisonLeft);
   CPPUNIT_TEST(testComparisonRight);
   CPPUNIT_TEST(testEdgeComparison);
+  CPPUNIT_TEST(testEmpty);
   CPPUNIT_TEST_SUITE_END();
  private:
   BEdge* simpleEdge;
@@ -35,6 +36,7 @@ class BEdgeTest : public CppUnit::TestFixture {
   BEdge* longEdge4;
   BEdge* longEdge5;
   BEdge* longEdge6;
+  BEdge* emptyEdge;
  public:
   void setUp() {
     std::vector<double> x;
@@ -91,6 +93,7 @@ class BEdgeTest : public CppUnit::TestFixture {
     longEdge4 = new BEdge(bd1, bd2);
     longEdge5 = new BEdge(be1, be2);
     longEdge6 = new BEdge(bf1, bf2);
+    emptyEdge = new BEdge();
   }
   void tearDown() {
     delete simpleEdge;
@@ -113,6 +116,7 @@ class BEdgeTest : public CppUnit::TestFixture {
     delete longEdge3;
     delete longEdge4;
     delete longEdge5;
+    delete emptyEdge;
   }
   void testPointGetters() {
     CPPUNIT_ASSERT(simpleEdge->leftPoint().z1() == 1);
@@ -272,6 +276,11 @@ class BEdgeTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT(tleft.rightPoint().z1() == 6 && tleft.rightPoint().z2() == 6);
     CPPUNIT_ASSERT(bright.leftPoint().z1() == 6 && bright.leftPoint().z2() == 6);
     CPPUNIT_ASSERT(bright.rightPoint().z1() == 11 && bright.rightPoint().z2() == 1);
+  }
+  void testEmpty() {
+    CPPUNIT_ASSERT(!simpleEdge->isEmpty());
+    CPPUNIT_ASSERT(!pointEdge->isEmpty());
+    CPPUNIT_ASSERT(emptyEdge->isEmpty());
   }
 };
 
