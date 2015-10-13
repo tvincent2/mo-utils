@@ -5,6 +5,7 @@ class BEdgeTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE(BEdgeTest);
   CPPUNIT_TEST(testPointGetters);
   CPPUNIT_TEST(testIsAPoint);
+  CPPUNIT_TEST(testOpenExtremities);
   CPPUNIT_TEST(testAreaPredicates);
   CPPUNIT_TEST(testProjComputation);
   CPPUNIT_TEST(testComparisonWithPoint);
@@ -136,6 +137,12 @@ class BEdgeTest : public CppUnit::TestFixture {
     CPPUNIT_ASSERT(!simpleEdge->isAPoint());
     CPPUNIT_ASSERT(pointEdge->isAPoint());
     CPPUNIT_ASSERT(pointEdge2->isAPoint());
+  }
+  void testOpenExtremities() {
+    CPPUNIT_ASSERT(pointEdge->isLeftClose());
+    CPPUNIT_ASSERT(pointEdge->isRightClose());
+    CPPUNIT_ASSERT(pointEdge2->isLeftClose());
+    CPPUNIT_ASSERT(pointEdge2->isRightClose());
   }
   void testAreaPredicates() {
     CPPUNIT_ASSERT(simpleEdge->isInA1AreaOf(*simpleEdge2));
