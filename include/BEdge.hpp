@@ -20,6 +20,10 @@ class BEdge {
     BVect rightPoint() const {return _b;}
     bool isAPoint() const {return _point;}
     bool isEmpty() const {return (!_aClosed && !_bClosed);}
+    bool isLeftOpen() const {return !_aClosed;}
+    bool isRightOpen() const {return !_bClosed;}
+    bool isLeftClose() const {return _aClosed;}
+    bool isRightClose() const {return _bClosed;}
     bool isInA1AreaOf(const BEdge& be) const {
       return (this->rightPoint().isInA1AreaOf(be.leftPoint()));
     }
