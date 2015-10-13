@@ -14,7 +14,7 @@ class BEdge {
     bool _point;
   public:
     BEdge() : _aClosed(false), _bClosed(false), _point(false) {}
-    BEdge (BVect a, BVect b, bool aC = true, bool bC = true) : _a(a), _b(b), _aClosed(aC), _bClosed(bC), _point(a==b) {}
+    BEdge (BVect a, BVect b, bool aC = true, bool bC = true) : _a(a), _b(b), _point(a==b), _aClosed(_point || aC), _bClosed(_point || bC) {}
     BEdge (BVect a) : _a(a), _b(a), _aClosed(true), _bClosed(true), _point(true) {}
     BVect leftPoint() const {return _a;}
     BVect rightPoint() const {return _b;}
