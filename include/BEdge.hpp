@@ -2,6 +2,7 @@
 #define BEDGE
 
 #include <utility>
+#include <iostream>
 #include "BVect.hpp"
 #include "DominanceStatus.hpp"
 
@@ -236,6 +237,10 @@ class BEdge {
           return DominanceStatus::NO_DOM;
         }
       }
+    }
+    friend ostream& operator << (ostream& s, const BEdge& be) {
+      s << "[" << be.leftPoint() << ", " << be.rightPoint() << "]";
+      return s;
     }
 };
 
