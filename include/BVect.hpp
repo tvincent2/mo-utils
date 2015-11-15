@@ -2,6 +2,7 @@
 #define BVECT
 
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -43,6 +44,10 @@ class BVect {
     }
     bool isInA2AreaOf(const BVect& bv) const {
       return bv.isInA1AreaOf(*this);
+    }
+    friend ostream& operator << (ostream& s, const BVect& bv) {
+      s << "(" << bv.z1() << ", " << bv.z2() << ")";
+      return s;
     }
 };
 
